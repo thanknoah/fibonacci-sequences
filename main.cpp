@@ -38,7 +38,7 @@ int main() {
 	  auto listOfOption = options();
 	  auto start = std::chrono::high_resolution_clock::now();
 	  int numOfSequences = std::get<0>(listOfOption);
-    bool loggingEnabled = std::get<1>(listOfOption);
+      bool loggingEnabled = std::get<1>(listOfOption);
 	  int numOfThreads = std::thread::hardware_concurrency();
 
 	  std::vector<std::thread> threads;
