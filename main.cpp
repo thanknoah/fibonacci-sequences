@@ -7,13 +7,13 @@
 #include <vector>
 
 int recursion(int n, int threadNum, bool loggingEnabled) {
-     if (n == 0) {
-	 return 0;
-     }
-     if (loggingEnabled) {
+    if (n == 0) {
+	return 0;
+    }
+    if (loggingEnabled) {
         std::cout << "\nThread [#" << threadNum << "]: " << n;
-     }
-     return n + recursion(n - 1, threadNum, loggingEnabled);
+    }
+    return n + recursion(n - 1, threadNum, loggingEnabled);
 }
 
 std::tuple<int, bool> options() {
@@ -34,25 +34,24 @@ std::tuple<int, bool> options() {
 	return std::make_tuple(numOfFibonnaci, false);
     }
 
-    int main() {
-	  auto listOfOption = options();
-	  auto start = std::chrono::high_resolution_clock::now();
-	  int numOfSequences = std::get<0>(listOfOption);
-          bool loggingEnabled = std::get<1>(listOfOption);
-	  int numOfThreads = std::thread::hardware_concurrency();
+int main() {
+    auto listOfOption = options();
+    auto start = std::chrono::high_resolution_clock::now();
+    int numOfSequences = std::get<0>(listOfOption);
+    bool loggingEnabled = std::get<1>(listOfOption);
+    int numOfThreads = std::thread::hardware_concurrency();
 
-	  std::vector<std::thread> threads;
+    std::vector<std::thread> threads;
 
-	  for (int x = 0; x < numOfThreads; x++) {
-		    threads.emplace_back(recursion, numOfSequences / numOfThreads, x, loggingEnabled);
-	  }
-	  for (auto& thread : threads) {
-		   thread.join();
-	  }
+     for (int x = 0; x < numOfThreads; x++) {
+	  threads.emplace_back(recursion, numOfSequences / numOfThreads, x, loggingEnabled);
+     }
+     for (auto& thread : threads) {
+          thread.join();
+     }
 
-	  auto end = std::chrono::high_resolution_clock::now();
-	  std::chrono::duration<double> elapsed = end - start;
-	  std::cout << "\nTime taken: " << elapsed.count() << " seconds" << std::endl;
-
-	  return 0;
+     auto end = std::chrono::high_resolution_clock::now();
+     std::chrono::duration<double> elapsed = end - start;
+     std::cout << "\nTime taken: " << elapsed.count() << " seconds" << std::endl;
+     return 0;
   }
